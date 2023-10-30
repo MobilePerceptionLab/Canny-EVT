@@ -1,0 +1,77 @@
+%YAML:1.0
+---
+T_ev_rgb: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1,0,0,0, 
+         0,1,0,0,
+         0,0,1,0,
+         0,0,0,1]
+
+T_rgb_depth: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1,0,0,0, 
+         0,1,0,0,
+         0,0,1,0,
+         0,0,0,1]
+
+K_rgb: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 226.38018519795807, 0.0, 173.6470807871759, 0.0, 226.15002947047415, 133.73271487507847, 0.0, 0.0, 1.0 ]
+
+K_ev: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 226.38018519795807, 0.0, 173.6470807871759, 0.0, 226.15002947047415, 133.73271487507847, 0.0, 0.0, 1.0 ]
+
+dist_rgb: !!opencv-matrix
+   rows: 4
+   cols: 1
+   dt: d
+   data: [ -0.048031442223833355, 0.011330957517194437, -0.055378166304281135, 0.021500973881459395 ]
+
+dist_ev: !!opencv-matrix
+   rows: 4
+   cols: 1
+   dt: d
+   data: [ -0.048031442223833355, 0.011330957517194437, -0.055378166304281135, 0.021500973881459395 ]
+
+height_ev: 260
+width_ev: 346
+
+height_rgb: 260
+width_rgb: 346
+
+height_depth: 260
+width_depth: 346
+
+
+depth_topic: "/davis/left/depth_image_rect"
+
+event_topic: "/davis/left/events"
+
+rgb_topic: "/davis/left/image_raw"
+
+tolerant_msec: 20.0
+
+distortion_model: "equidistant" # "plumb_bob"
+
+event_queue_length: 100 # the max size of a event mat pixel
+
+depth_downsample_factor: 4 
+
+ts_decay_factor: 40.0 # exponential decay factor in ms 
+
+ts_generate_factor: 6 # rate of time surface generation
+
+ignore_polarity: 1
+
+ts_mode: "backward" # "forward"
+
+depth_mode: "ts" # "rgb"

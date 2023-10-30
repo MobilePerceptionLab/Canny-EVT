@@ -1,0 +1,176 @@
+%YAML:1.0
+---
+
+# T_ev_depth: !!opencv-matrix
+#    rows: 4
+#    cols: 4
+#    dt: d
+#    data: [  0.999774,-0.00578268,-0.0204645,0.0834269,
+#             0.00862641,0.989868,0.141727,0.00733801,
+#             0.0194376,-0.141871,0.989694,0.00249401,
+#             0,0,0,1 ]
+
+T_rgb_depth: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ 9.9999899999999997e-01, 5.0424100000000000e-04,-1.2488400000000000e-03, -3.2005400000000003e-02,
+       -3.7795000000000000e-04, 9.9507400000000001e-01, 9.9137100000000006e-02, -1.8432500000000001e-03,
+       1.2926800000000000e-03, -9.9136500000000002e-02, 9.9507299999999999e-01, 4.0523699999999996e-03,
+        0., 0., 0., 1. ]
+
+T_ev_depth: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [  1,0,0,0,
+            0,1,0,0,
+            0,0,1,0,
+            0,0,0,1 ]
+
+T_ev_map: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1,0,0,0,
+          0,1,0,0,
+          0,0,1,0,
+          0,0,0,1]
+#[  0.99979307, -0.0047956,  -0.01976906, -0.00240195,
+ #           0.00539042,  0.99953098,  0.03014583,  0.04671014,
+  #          0.01961522, -0.03024616,  0.99935,     0.01583487,
+   #         0,0,0,1 ]
+
+K_rgb: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 6.0296500000000003e+02, 0., 6.4002800000000002e+02, 0.,
+       6.0278599999999994e+02, 3.6464200000000000e+02, 0., 0., 1. ]
+
+K_ev: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [554.3711 ,   0.     , 310.58465,
+           0.     , 554.27623, 239.32297,
+           0.     ,   0.     ,   1.     ]
+K_depth: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [557.19116,   0.     , 310.87738,  
+           0.     , 557.79749, 239.09586, 
+           0.     ,   0.     ,   1.    ]
+
+P_ev: !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [557.19116,   0.     , 310.87738,   0.     ,
+           0.     , 557.79749, 239.09586,   0.     ,
+           0.     ,   0.     ,   1.     ,   0.     ]
+
+dist_rgb: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 9.0249500000000005e-01, -2.9638300000000002e+00,
+       1.6009899999999999e+00, 4.3266200000000000e-04,
+       -4.7723800000000000e-04 ]
+
+dist_ev: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ -0.108134, 0.232903, 0.000526, 0.000113, 0.000000]
+
+dist_depth: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [5.3632999999999997e+00, 3.3549300000000000e+00,
+       1.6303200000000001e-01, -1.0816800000000000e-05,
+       -1.4386799999999999e-05]
+
+height_ev: 480
+width_ev: 640
+
+height_rgb: 720
+width_rgb: 1280
+
+height_depth: 480
+width_depth: 640
+
+camera_name: mpl_prophesee
+
+depth_topic: "/depth_to_rgb/image_raw"
+
+# event_topic: "/prophesee/camera/cd_events_buffer_reconstructed"
+event_topic: "/prophesee/camera_left/cd_events_buffer_reconstructed"
+
+rgb_topic: "/stereo/left/image_mono"
+
+imu_topic: "/imu/data"
+
+gt_topic: "/gt/pose"
+
+tolerant_msec: 20.0
+
+distortion_model: "plumb_bob" # "equidistant"
+
+depth_downsample_factor: 3
+
+#ts_decay_factor: 2.5e-3 # exponential decay factor in ms 
+ts_decay_factor: 10e-3 # exponential decay factor in ms 
+
+ignore_polarity: 1
+
+ac_accumulated_time: 20.0e-3 #accumulated time
+
+ts_mode: "backward" # "forward"
+
+depth_mode: "ts" # "rgb"
+
+with_ICP: 0
+
+with_event: 0
+
+ACC_N: 1  #the variance of the noise in ACC
+
+ACC_W: 1  #the variance of the bias in ACC
+
+GYR_N: 1  #the variance of the noise in GYR
+
+GYR_W: 1  #the variance of the bias in GYR
+
+bias_a: !!opencv-matrix
+    rows: 1
+    cols: 3
+    dt: d
+    data: [0., 0., 0.]
+
+bias_w: !!opencv-matrix
+    rows: 1
+    cols: 3
+    dt: d
+    data: [0., 0., 0.]
+
+#bag_path: "/media/cuili/WantingHDD/zzz/Slow1_ECID_edited_sofa1.bag"
+#bag_path: "/home/cuili/Downloads/Slow1_ECID_edited_sofa1.bag"
+#bag_path: "/media/cuili/SSK Storage/dataset/ours_old/Fast1_ECID_final_edited_sofa.bag"
+bag_path: "/home/cuili/zzz/scripts/dataset/old/table/Medium1_ECID_edited.bag"
+
+#pcd_path: "/home/cuili/Downloads/pcd/result/old/pc/pc_old_sofa_normal_flow_all.pcd"
+#pcd_path: "/home/cuili/zzz/semidense-lines-zzz/results_line_segments/result/old/pc/pc_old_sofa_normal_flow_all.pcd"
+#pcd_path: "/media/cuili/WantingHDD/zzz/pc_old_sofa_normal_flow_all.pcd"
+pcd_path: "/home/cuili/zzz/semidense-lines-zzz/results_line_segments/result/old/pc/pc_old_table_m_vd_nf.pcd"
+
+resultPath: "/home/cuili/zzz/ESLAM_normal_flow/src/EVENT-D-VO/esvo_plus/"
+
+calib_dir: "/home/cuili/zzz/ESLAM_normal_flow/src/EVENT-D-VO/esvo_plus/cfg/calib_mpl"
+
+ts_interp_factor: 10
+Num_for_Predict: 5
+
+start_time: 1630077155.046860 #根据orb运行结果，去掉初始化部分

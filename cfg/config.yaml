@@ -1,0 +1,75 @@
+%YAML:1.0
+---
+
+# Event Camera
+model: 'plumb_bob' #equidistant
+K: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 327.32749,    0.     ,  304.97749,
+         0.     ,  327.46184,  235.37621,
+         0.     ,    0.     ,    1.     ]
+distortion: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [-0.031982, 0.041966, -0.000507, -0.001031, 0.000000]
+Rbc: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 0., 0., 1.,
+         -1., 0., 0.,
+         0., -1., 0.]
+tbc: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [ 0.10308037, 0.0825, 0.025]
+P: !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [ 339.69174,    0.     ,  305.8753 ,    0.     ,
+            0.     ,  340.96127,  235.33929,    0.     ,
+            0.     ,    0.     ,    1.     ,    0.     ]
+
+height: 480
+width: 640
+#DecayFactor: 20.0e-3 # exponential decay factor in ms
+
+
+# for ros
+event_topic: "/prophesee/left/events"
+imu_topic: "/imu/data"
+bag_path: "/media/cuili/WantingHDD/zzz/VECtor/our_edited/robot_n_edited.bag"
+
+# for system
+pcd_path: "/media/cuili/WantingHDD/zzz/VECtor/our_edited/robot_n.pcd"
+#"/home/cuili/Downloads/semi_cloud_enu_back.pcd"
+#
+#"/home/cuili/zzz/semidense-lines-gt-5/results_line_segments/SemiDense.pcd"
+#"/media/cuili/WantingHDD/zzz/VECtor/our_edited/robot_n.pcd"
+
+resultPath: "/home/cuili/zzz/Canny_EVT_open_source/result.txt"
+start_time: 1642661138.936530 # TBD
+#1642661139.103197 #test new for yrz
+
+# start_time: 1642661139.03653 # vins
+frame_frequency: 300 #hz
+
+ts_decay_factor: 30.0e-3
+
+# for optimizer
+patchSizeX: 1
+patchSizeY: 1
+
+PointCulling: 0
+NormalFlow: 0
+queueSize: 5
+
+# for visualization
+visulization: 1 #visualize the 3D-2D alignment in optimization
+zMin: 0.8
+zMax: 2.5

@@ -1,0 +1,26 @@
+image_width: 640
+image_height: 480
+camera_name: prophesee_gen3_left
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [554.3711 ,   0.     , 310.58465,
+           0.     , 554.27623, 239.32297,
+           0.     ,   0.     ,   1.     ]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.108134, 0.232903, 0.000526, 0.000113, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1., 0., 0.,
+         0., 1., 0.,
+         0., 0., 1.]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [557.19116,   0.     , 310.87738,   0.     ,
+           0.     , 557.79749, 239.09586,   0.     ,
+           0.     ,   0.     ,   1.     ,   0.     ]

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>evit_demo</name>
+  <version>0.0.0</version>
+  <description>The evit package</description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag -->
+  <!-- Example:  -->
+  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
+  <maintainer email="mpl@todo.todo">mpl</maintainer>
+
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <!-- Commonly used license strings: -->
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+
+  <depend>cv_bridge</depend>
+  <depend>dvs_msgs</depend>
+  <depend>rosbag</depend>
+  <depend>tf2_ros</depend>
+  <depend>pcl_conversions</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+<!--  <depend>eigen_catkin</depend>-->
+  <depend>image_transport</depend>
+<!--  <depend>minkindr</depend>-->
+<!--  <depend>minkindr_conversions</depend>-->
+  <depend>pcl_ros</depend>
+  <depend>prophesee_event_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+<!--  <depend>nav_msgs</depend>-->
+<!--  <depend>esvo_core</depend>-->
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

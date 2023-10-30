@@ -1,0 +1,185 @@
+%YAML:1.0
+---
+
+# T_ev_depth: !!opencv-matrix
+#    rows: 4
+#    cols: 4
+#    dt: d
+#    data: [  0.999774,-0.00578268,-0.0204645,0.0834269,
+#             0.00862641,0.989868,0.141727,0.00733801,
+#             0.0194376,-0.141871,0.989694,0.00249401,
+#             0,0,0,1 ]
+
+T_rgb_depth: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1,0,0,0,
+          0,1,0,0,
+          0,0,1,0,
+          0,0,0,1]
+
+T_ev_depth: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1,0,0,0,
+          0,1,0,0,
+          0,0,1,0,
+          0,0,0,1]       
+
+T_ev_map: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1,0,0,0,
+          0,1,0,0,
+          0,0,1,0,
+          0,0,0,1]
+
+
+#[  9.99708483e-01, -7.05934225e-03,  2.30892587e-02,  7.60299962e-04,
+ #           6.45012556e-03,  9.99631859e-01,  2.63541670e-02,  3.80075967e-02,
+  #          -2.32668016e-02, -2.61975557e-02,  9.99385984e-01,  1.08383352e-02,
+   #         0,0,0,1 ]
+
+
+K_rgb: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 520.908620, 0., 325.141442, 0.,
+       521.007327, 249.701764, 0., 0., 1. ]
+
+K_ev: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 520.908620, 0., 325.141442, 0.,
+       521.007327, 249.701764, 0., 0., 1. ]
+
+K_depth: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 520.908620, 0., 325.141442, 0.,
+       521.007327, 249.701764, 0., 0., 1. ]
+
+P_ev: !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [ 520.908620, 0., 325.141442,0,
+           0.,521.007327, 249.701764,0,
+           0., 0., 1.,0 ]
+
+dist_rgb: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 0.231222, -0.784899,
+       -0.003257, -0.000105,
+       0.917205 ]
+
+dist_ev: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 0.231222, -0.784899,
+       -0.003257, -0.000105,
+       0.917205 ]
+
+dist_depth: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 0.231222, -0.784899,
+       -0.003257, -0.000105,
+       0.917205 ]
+
+height_ev: 480
+width_ev: 640
+
+#height_rgb: 720
+#width_rgb: 1280
+height_rgb: 480
+width_rgb: 640
+
+height_depth: 480
+width_depth: 640
+#height_depth: 576
+#width_depth: 640
+
+camera_name: mpl_prophesee
+
+#depth_topic: "/depth_to_rgb/image_raw"
+depth_topic: "/camera/depth/image"
+
+# event_topic: "/prophesee/camera/cd_events_buffer_reconstructed"
+#event_topic: "/prophesee/camera_left/cd_events_buffer_reconstructed"
+event_topic: "/events"
+
+rgb_topic: "/camera/rgb/image_color"
+
+imu_topic: "/imu/data"
+
+gt_topic: "/gt/pose"
+
+tolerant_msec: 20.0
+
+distortion_model: "plumb_bob" # "equidistant"
+
+depth_downsample_factor: 1
+
+#ts_decay_factor: 2.5e-3 # exponential decay factor in ms 
+ts_decay_factor: 30.0e-3 # exponential decay factor in ms 
+
+ignore_polarity: 1
+
+ac_accumulated_time: 20.0e-3 #accumulated time
+
+ts_mode: "backward" # "forward"
+
+depth_mode: "ts" # "rgb"
+
+with_ICP: 0
+
+with_event: 0
+
+ACC_N: 1  #the variance of the noise in ACC
+
+ACC_W: 1  #the variance of the bias in ACC
+
+GYR_N: 1  #the variance of the noise in GYR
+
+GYR_W: 1  #the variance of the bias in GYR
+
+bias_a: !!opencv-matrix
+    rows: 1
+    cols: 3
+    dt: d
+    data: [0., 0., 0.]
+
+bias_w: !!opencv-matrix
+    rows: 1
+    cols: 3
+    dt: d
+    data: [0., 0., 0.]
+
+#bag_path: "/media/cuili/SSK Storage/dataset/TUM/rgbd_dataset_freiburg2_xyz_0.2.bag"
+bag_path: "/media/cuili/WantingHDD/zzz/TUM-RGBD/upsample/rgbd_dataset_freiburg2_rpy.bag"
+#bag_path: "/home/cuili/Downloads/sofa_normal1_synced_edited.bag"
+#bag_path: "/home/cuili/Downloads/Slow1_ECID_edited.bag"
+#bag_path: "/home/mpl/datasets/High_Table/Well-Lit/Slow1_ECID_edited.bag"
+
+#pcd_path: "/home/cuili/Downloads/pcd/result/new/pc/pc_new_sofa_normal_flow1.pcd"
+pcd_path: "/home/cuili/zzz/semidense-lines-zzz/results_line_segments/result/tum/fr2_rpy_vd_nf.pcd"
+
+resultPath: "/home/cuili/zzz/ESLAM_normal_flow/src/EVENT-D-VO/esvo_plus/"
+
+calib_dir: "/home/cuili/zzz/ESLAM_normal_flow/src/EVENT-D-VO/esvo_plus/cfg/calib_mpl/tum2"
+
+ts_interp_factor: 10
+Num_for_Predict: 10
+
+start_time: 1311867737.614253 #根据orb运行结果，去掉初始化部分
