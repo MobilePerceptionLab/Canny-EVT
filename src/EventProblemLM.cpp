@@ -78,7 +78,7 @@ void EventProblemLM::setProblem(TimeSurface::Ptr Ts, pCloud cloud, Eigen::Matrix
     for (int i = 0; i < numPoints; i++)
     {
         if (mConfig->StochasticSampling)
-            std::swap(mCloud->at(i), mCloud->at(i + rand() % (numPoints - i)));
+            std::swap(mCloud->at(i), mCloud->at(i + rand() % (mCloud->size() - i)));
         Eigen::Vector3d p_w(mCloud->at(i).x, mCloud->at(i).y, mCloud->at(i).z);
         Eigen::Vector3d pg_w(mCloud->at(i).xg, mCloud->at(i).yg, mCloud->at(i).zg);
 
@@ -144,7 +144,8 @@ void EventProblemLM::setProblem(TimeSurface::Ptr Ts, pCloud cloud, Eigen::Matrix
     }
 
 
-    mNumBatches = std::max(numPoints / mConfig->BATCH_SIZE_, size_t(1));
+    // mNumBatches = std::max(numPoints / mConfig->BATCH_SIZE_, size_t(1));
+    mNumBatches = std::max(mResItems.size() / mConfig->BATCH_SIZE_, size_t(1));
     resetNumberValues(numPoints * mPatchSize);
     mCounter++;
 
@@ -225,6 +226,7 @@ int EventProblemLM::operator()(const Eigen::Matrix<double, 6, 1> &x, Eigen::Vect
             if (ri.residual_(0) > mConfig->huber_threshold_)
                 irls_weight = mConfig->huber_threshold_ / ri.residual_(0);
             fvec[i] = sqrt(irls_weight) * ri.residual_(0);
+            // ri.weight_ = sqrt(irls_weight);
         }
     }
     // std::cout << "fvec_event_norm:" << fvec.norm() <<std::endl;
@@ -302,23 +304,28 @@ int EventProblemLM::df(const Eigen::Matrix<double, 6, 1> &x, Eigen::MatrixXd &fj
 
             //using optical flow
             //grad = ri.optical_flow_;
+            Eigen::Vector4d p4d;
+            p4d.setIdentity();
+            p4d.block<3,1>(0,0) = ri.p_;
+            
+            Eigen::Vector4d p3d = Tcw * p4d;
             Eigen::Matrix<double, 2, 3> dPi_dT;
             dPi_dT.setZero();
-            dPi_dT.block<2, 2>(0, 0) = mEventCamera->getProjectionMatrix().block<2, 2>(0, 0) / ri.p_(2);
-            const double z2 = pow(ri.p_(2), 2);
-            dPi_dT(0, 2) = -(P11 * ri.p_(0) + P12 * ri.p_(1) + P14) / z2;
-            dPi_dT(1, 2) = -(P21 * ri.p_(0) + P22 * ri.p_(1) + P24) / z2;
+            dPi_dT.block<2, 2>(0, 0) = mEventCamera->getProjectionMatrix().block<2, 2>(0, 0) / p3d(2);
+            const double z2 = pow(p3d(2), 2);
+            dPi_dT(0, 2) = -(P11 * p3d(0) + P12 * p3d(1) + P14) / z2;
+            dPi_dT(1, 2) = -(P21 * p3d(0) + P22 * p3d(1) + P24) / z2;
 
             // assemble dT_dG
             Eigen::Matrix<double, 3, 12> dT_dG;
             dT_dG.setZero();
-            dT_dG.block<3, 3>(0, 0) = ri.p_(0) * Eigen::Matrix3d::Identity();
-            dT_dG.block<3, 3>(0, 3) = ri.p_(1) * Eigen::Matrix3d::Identity();
-            dT_dG.block<3, 3>(0, 6) = ri.p_(2) * Eigen::Matrix3d::Identity();
+            dT_dG.block<3, 3>(0, 0) = p3d(0) * Eigen::Matrix3d::Identity();
+            dT_dG.block<3, 3>(0, 3) = p3d(1) * Eigen::Matrix3d::Identity();
+            dT_dG.block<3, 3>(0, 6) = p3d(2) * Eigen::Matrix3d::Identity();
             dT_dG.block<3, 3>(0, 9) = Eigen::Matrix3d::Identity();
             //      LOG(INFO) << "dT_dG:\n" << dT_dG;
-            fjacBlock.row(i) = grad.transpose() * dPi_dT * J_constPart * dPi_dT * dT_dG * ri.p_(2); // ri.p_(2) refers to 1/rho_i which is actually coming with dInvPi_dx.
-
+            // fjacBlock.row(i) = grad.transpose() * dPi_dT * J_constPart * dPi_dT * dT_dG * ri.p_(2); // ri.p_(2) refers to 1/rho_i which is actually coming with dInvPi_dx.
+            fjacBlock.row(i) = grad.transpose() * dPi_dT * dT_dG;
             fjacBlock.row(i) = ri.weight_ * fjacBlock.row(i);
         }
     }

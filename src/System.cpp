@@ -266,6 +266,18 @@ void System::Draw(){
 
         for(int i = 0; i < nPath_size-1; ++i)
         {
+
+            double zc = 5*std::sqrt(vPath_to_draw[i].x()*vPath_to_draw[i].x() + vPath_to_draw[i].y()*vPath_to_draw[i].y() + vPath_to_draw[i].z()*vPath_to_draw[i].z());
+
+
+            int index = floor((1/zc - 1/mzMin) / (1/mzMax - 1/mzMin) * 255.0f);
+            if (index > 255)
+                index = 255;
+            if (index < 0)
+                index = 0;
+
+            glColor3f(1.0f * Utility::b[index], 1.0f * Utility::g[index], 1.0f * Utility::r[index]);
+
             glVertex3f(vPath_to_draw[i].x(), vPath_to_draw[i].y(), vPath_to_draw[i].z());
             glVertex3f(vPath_to_draw[i+1].x(), vPath_to_draw[i+1].y(), vPath_to_draw[i+1].z());
         }

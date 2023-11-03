@@ -59,7 +59,7 @@ start_time: 1642661138.936530 # TBD
 # start_time: 1642661139.03653 # vins
 frame_frequency: 300 #hz
 
-ts_decay_factor: 30.0e-3
+ts_decay_factor: 50.0e-3
 
 # for optimizer
 patchSizeX: 1

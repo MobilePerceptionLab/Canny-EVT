@@ -38,7 +38,7 @@ public:
 
     void GenerateTsGrad(const cv::Mat& Ts, cv::Mat& gradX, cv::Mat& gradY);
 
-    void GenerateInverseTS(const cv::Mat& Ts, cv::Mat& invTs, size_t kernelSize = 5);
+    void GenerateInverseTS(const cv::Mat& Ts, cv::Mat& invTs, size_t kernelSize = 7);
 
     cv::Mat& getTs();
     cv::Mat& getTsPositiveMat();

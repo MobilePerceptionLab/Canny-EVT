@@ -84,6 +84,7 @@ bool Optimizer::OptimizeEventProblem(TimeSurface::Ptr ts, pCloud cloud, const Ei
 
         mEventProblem->setStochasticSampling((iteration % mEventProblem->mNumBatches) * mEventProblemConfig->BATCH_SIZE_,
                                              mEventProblemConfig->BATCH_SIZE_);
+
         Eigen::VectorXd x(6);
         x.fill(0.0);
         if (lm.minimizeInit(x) == Eigen::LevenbergMarquardtSpace::ImproperInputParameters) {
