@@ -26,8 +26,8 @@ add_definitions(${PCL_DEFINITIONS})
 find_package(Pangolin REQUIRED)
 include_directories(${Pangolin_INCLUDE_DIRS})
 
-find_package(Ceres REQUIRED)
-include_directories(${CERES_INCLUDE_DIRS})
+#find_package(Ceres REQUIRED)
+#include_directories(${CERES_INCLUDE_DIRS})
 
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -60,7 +60,7 @@ target_link_libraries(EVIT
         ${OpenCV_LIBRARIES}
         ${PCL_LIBRARIES}
         ${Pangolin_LIBRARIES}
-        ${CERES_LIBRARIES}
+        #${CERES_LIBRARIES}
         )
 
 link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
