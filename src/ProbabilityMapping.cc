@@ -153,11 +153,7 @@ void ProbabilityMapping::SaveSemiDensePoints()
         return;
     }
 
-    //added by zzz
-    //ORB_SLAM2::KeyFrame* kf__ = vpKFs[0];
-    //std::cout<<"im_"<<kf__->im_.rows<<kf__->im_.cols<<std::endl;
-    //std::cout<<"rgb_"<<kf__->rgb_.rows<<kf__->rgb_.cols<<std::endl;
-    //std::cout<<"grad"<<kf__->Gradx.rows<<kf__->Gradx.cols<<std::endl;
+
 
     for (size_t indKF = 0; indKF < vpKFs.size(); indKF++) {
         ORB_SLAM2::KeyFrame* kf = vpKFs[indKF];
@@ -166,10 +162,7 @@ void ProbabilityMapping::SaveSemiDensePoints()
             kf->SetEraseSemiDense();
             continue;
         }
-                    //std::cout<<"im_"<<kf->im_.rows<<kf->im_.cols<<std::endl;
-                    //std::cout<<"rgb_"<<kf->rgb_.rows<<kf->rgb_.cols<<std::endl;
-                    //std::cout<<"grad"<<kf->Gradx.rows<<kf->Gradx.cols<<std::endl;
-                    //break;
+
         for(size_t y = 0; y< (size_t)kf->im_.rows; y++) {
             for (size_t x = 0; x < (size_t) kf->im_.cols; x++) {
 
@@ -186,20 +179,11 @@ void ProbabilityMapping::SaveSemiDensePoints()
                     float r = kf->rgb_.at<uchar>(y, 3*x+2) / 255.0;
                     vr = r; vg = g; vb = b;
 
-                    //float gx = kf->Gradx.at<float>(y, x);
-                    //float gy = kf->Grady.at<float>(y, x);
-                    ///std::cout<<"col"<<kf->im_.cols<<"x*3"<<3*x<<std::endl;
-                    //std::cout<<"semidense"<<kf->SemiDensePointSets_.rows<<kf->SemiDensePointSets_.cols<<std::endl;
-                    ///std::cout<<"value"<<kf->SemiDensePointSets_.at<float>(y, 3 * x)<<std::endl;
-
-                    //added by zzz
                     std::tuple<Eigen::Vector3f,Eigen::Vector3f> res;
                     res = Cal3dGradient(kf, x, y);
                     Eigen::Vector3f grad3d = std::get<0>(res);
                     Eigen::Vector3f normal = std::get<1>(res);
 
-                    //fileOut << "v " + std::to_string(Pw[0]) + " " + std::to_string(Pw[1]) + " " + std::to_string(Pw[2]) + " "
-                    //           + std::to_string(vr) + " " << std::to_string(vg) + " " + std::to_string(vb) << std::endl;
                     fileOut << "v " + std::to_string(Pw[0]) + " " + std::to_string(Pw[1]) + " " + std::to_string(Pw[2]) + " "
                                + std::to_string(grad3d(0)) + " " << std::to_string(grad3d(1)) + " " + std::to_string(grad3d(2)) + " "
                                 + "1" + " " + std::to_string(normal(0)) + " " << std::to_string(normal(1)) + " " + std::to_string(normal(2))<< std::endl;
@@ -233,12 +217,9 @@ void ProbabilityMapping::SaveSemiDensePoints()
     }
     fileOut.flush();
     fileOut.close();
-        //added by zzz
+
     ORB_SLAM2::KeyFrame* kf__ = vpKFs[0];
-    //std::cout<<"im_"<<kf__->im_.rows<<kf__->im_.cols<<std::endl;
-    //std::cout<<"rgb_"<<kf__->rgb_.rows<<kf__->rgb_.cols<<std::endl;
-    //std::cout<<"grad"<<kf__->Gradx.rows<<kf__->Gradx.cols<<std::endl;
-    //std::cout<<"semidense"<<kf__->SemiDensePointSets_.rows<<kf__->SemiDensePointSets_.cols<<std::endl;
+
     std::cout << "saved semi dense point cloud" << std::endl;
 }
 
@@ -291,8 +272,7 @@ std::tuple<Eigen::Vector3f,Eigen::Vector3f> ProbabilityMapping::Cal3dGradient(OR
     Eigen::Vector3f ray(pos1.at<float>(0) - pos2.at<float>(0),
                         pos1.at<float>(1) - pos2.at<float>(1),
                         pos1.at<float>(2) - pos2.at<float>(2));
-    //参考：https://blog.csdn.net/abcjennifer/article/details/6688080
-    //已知直线L过点pos1（X1，Y2，Z3），且方向向量为ray（v1，v2，v3），平面P过点P_3d（n1，n2，n3），且法线方向向量为surface normal（vp1，vp2，vp3）
+
     float vpt = ray(0) * surface_normal(0) + ray(1) * surface_normal(1) + ray(2) * surface_normal(2);
     float t = ((P_3d(0) - pos1.at<float>(0)) * surface_normal(0) + (P_3d(1) - pos1.at<float>(1)) * surface_normal(1) + (P_3d(2) - pos1.at<float>(2)) * surface_normal(2)) / vpt;
     //get the 3d point for gradient
@@ -571,8 +551,6 @@ void ProbabilityMapping::SemiDenseLoop(){
                     depthHo dh;
                     EpipolarSearch(kf, kf2, x, y, pixel, min_depth, max_depth, &dh,F12,best_u,best_v,rot,rot2);
 
-                    //added by zzz
-                    //dh.guadient << kf->Gradx.at<float>(y,x), kf->Grady.at<float>(y,x);
                     if (dh.supported && 1/dh.depth > 0.0)
                     {
                         depth_ho.push_back(dh);
@@ -591,11 +569,6 @@ void ProbabilityMapping::SemiDenseLoop(){
 
             }
         }
-
-        // Intra keyframe depth checking and growing are disabled for speed (optional)
-//        std::cout<<"IntraKeyFrameDepthChecking " << i <<std::endl;
-//        IntraKeyFrameDepthChecking( kf->depth_map_,  kf->depth_sigma_, kf->GradImg);
-//        IntraKeyFrameDepthGrowing( kf->depth_map_,  kf->depth_sigma_, kf->GradImg);
 
 
         kf->semidense_flag_ = true;
