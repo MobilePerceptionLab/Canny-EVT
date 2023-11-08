@@ -1,0 +1,54 @@
+/** \page page_how_to_use How to use
+ *
+ * \section sec_how_to_use_1 Configuration Guide
+ * 
+ * To ensure proper setup, modifications in the **yaml** file are required. Here are the details on the relevant configurations:
+ *
+ * <ul>
+ * <li> **pcd_path**: This represents the path to your point cloud data. Ensure you've correctly specified the full path to your point cloud file or directory.
+ * <li> **bag_path**: This is the path to your data. Make sure to correctly provide the path to where your data is stored.
+ * <li> **start_time**: This is the starting time, which is used to get a better initial pose. Specifically, it represents the timestamp of the first shot when building the map. We will provide a series of **start_time** values for your reference.
+ *
+ * \section sec_how_to_use_2 Run Canny-EVT
+ *
+ * To run Canny-EVT, follow the steps below (We take VECtor dataset as example):
+ * 
+ * Starting roscore:
+ *
+\verbatim
+roscore
+\endverbatim
+ * Starting rosrun:
+ *
+\verbatim
+rosrun evit_demo run_VECtor /path/to/config.yaml
+\endverbatim
+ *
+ * Terminating the program:
+ *
+\verbatim
+killall -9 run_VECtor
+\endverbatim
+ * Ensure you have the necessary permissions and paths set up before executing the commands.
+ *
+ * \section sec_how_to_use_3 Mapping
+ *
+ * **Mapping** is a refined version of the open-source project "Incremental 3D Line Segment Extraction from Semi-dense SLAM". Our enhancement includes the integration of 3D gradients. To view the related code modifications, please navigate to the <a href="https://github.com/zyfff/Canny-EVT/tree/Mapping" target="_blank">`mapping`</a> branch.
+ * 
+ * \subsection sec_mapping_1 Compilation and Execution
+ *
+ * The procedure for compilation and execution aligns with the original source code (one can refer to the README in the <a href="https://github.com/zyfff/Canny-EVT/tree/Mapping" target="_blank">`mapping`</a> branch). After a successful run, you will produce a `semi_pointcloud.obj` file.
+ * 
+ * \subsection sec_mapping_2 File Conversion
+ * 
+ * To transition the `semi_pointcloud.obj` file to a `.pcd` format, employ the following command with the provided script:
+ *
+\verbatim
+python3 readobj_pc_normal_flow.py (todo: might change the file name)
+\endverbatim
+ *
+ * \section sec_how_to_use_4 Executable Files
+ *
+ * If you want to obtain the same experimental results as in the paper directly, you can go to our <a href="https://github.com/zyfff/Canny-VOAT" target="_blank">`executable files repository`</a> to run them.
+ *
+ */
