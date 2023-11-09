@@ -35,6 +35,14 @@ killall -9 run_VECtor
  *
  * **Mapping** is a refined version of the open-source project "Incremental 3D Line Segment Extraction from Semi-dense SLAM". Our enhancement includes the integration of 3D gradients. To view the related code modifications, please navigate to the <a href="https://github.com/zyfff/Canny-EVT/tree/Mapping" target="_blank">`mapping`</a> branch.
  * 
+ * We also provide a script named ExtractBag.py that converts ROS bag files to the TUM format, extracts images, and generates an rgb.txt file.
+ *
+ * To use the script, execute the following command:
+ *
+\verbatim
+python ExtractBag.py
+\endverbatim
+ *
  * \subsection sec_mapping_1 Compilation and Execution
  *
  * The procedure for compilation and execution aligns with the original source code (one can refer to the README in the <a href="https://github.com/zyfff/Canny-EVT/tree/Mapping" target="_blank">`mapping`</a> branch). After a successful run, you will produce a `semi_pointcloud.obj` file.
@@ -46,9 +54,34 @@ killall -9 run_VECtor
 \verbatim
 python3 readobj_pc_normal_flow.py (todo: might change the file name)
 \endverbatim
+ * 
+ * \section sec_how_to_use_5 Testing
+ *
+ * To improve testing of localization accuracy, we use `result.txt` provided by the mapping phase as ground truth (GT). The assessment method is as follows:
+ *
+ * Place `gt.txt` and the output `result.txt` into the `/scripts/for_evaluation` directory.
+ *
+ * Run the evaluation script with the following command:
+\verbatim
+python compare_scale.sh
+\endverbatim
  *
  * \section sec_how_to_use_4 Executable Files
+ * 
  *
- * If you want to obtain the same experimental results as in the paper directly, you can go to our <a href="https://github.com/zyfff/Canny-VOAT" target="_blank">`executable files repository`</a> to run them.
+\verbatim
+\******************************************************************************************
+\endverbatim
+ * 
+ * Notice:
+ * 
+ * Please be aware that this open-source code is still in the debugging and testing phase of development. It may not be stable and is likely subject to change.
  *
+ * If you are seeking to replicate the test results as presented in the associated paper, we have provided an executable version for your convenience. For detailed information and access to the executable file, please visit our repository:
+ *
+ * <a href="https://github.com/zyfff/Canny-VOAT" target="_blank">`Canny-VOAT Executable File`</a> 
+ * 
+\verbatim
+\******************************************************************************************
+\endverbatim
  */
