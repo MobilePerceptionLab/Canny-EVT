@@ -8,7 +8,7 @@
 #include "EventCamera.h"
 #include "Frame.h"
 #include "type.h"
-#include "EventProblemLM.h"
+#include "CamBasedProblemLM.h"
 #include <unsupported/Eigen/NumericalDiff>
 #include "utility"
 // #include <opencv2/core/core.hpp>
@@ -39,8 +39,8 @@ public:
 protected:
     EventCamera::Ptr mEventCam; 
 
-    EventProblemLM::Ptr mEventProblem;
-    EventProblemConfig::Ptr mEventProblemConfig;
+    CamBasedProblemLM::Ptr mEventProblem;
+    CamBasedProblemConfig::Ptr mCamBasedProblemConfig;
     // for projection
     int mPatchSizeX, mPatchSizeY;
     int mPointCulling;

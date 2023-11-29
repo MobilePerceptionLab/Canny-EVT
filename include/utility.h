@@ -9,7 +9,7 @@
 #include "TimeSurface.h"
 #include "type.h"
 #include "EventCamera.h"
-// #include "EventProblemLM.h"
+// #include "CamBasedProblemLM.h"
 // #include "Optimizer.h"
 
 namespace CannyEVT
@@ -82,7 +82,7 @@ namespace Utility
     }
 
 //    //回头直接复制到optimizer
-//    void visulization(TimeSurface::Ptr TsPtr, EventProblemLM::Ptr EventProblemLMPtr, EventCamera::Ptr eventCam);
+//    void visulization(TimeSurface::Ptr TsPtr, CamBasedProblemLM::Ptr CamBasedProblemLMPtr, EventCamera::Ptr eventCam);
 
    void DrawPoint(double val, double maxRange, double minRange, const Eigen::Vector2d &location, cv::Mat &img);
 

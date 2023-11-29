@@ -13,7 +13,7 @@ T_left_imu = np.array([[0.017248643674008135, -0.9998037138739959, 0.00974771845
 
 print(np.linalg.inv(T_left_ev) * T_left_imu)
 
-# event cam to world
+# CamBased cam to world
 # T_w_ev = np.array([[0.99990929,  0.01212169,  0.00587235, -0.12212969],
 #                    [-0.01283288,  0.98978362, 0.14199895, -0.08461687],
 #                    [-0.00409109, -0.14206143,  0.98984939, 0.47258243],
@@ -32,7 +32,7 @@ print(np.linalg.inv(T_left_ev) * T_left_imu)
 # R_ev_rgb = R_ev.T @ R_rgb
 # t_ev_rgb = R_ev.T @ (t_rgb - t_ev)
 
-# # rgb cam to event cam
+# # rgb cam to CamBased cam
 # T_ev_rgb = np.zeros([4, 4])
 # T_ev_rgb[0:3, 0:3] = R_ev_rgb
 # T_ev_rgb[0:3, 3:4] = t_ev_rgb

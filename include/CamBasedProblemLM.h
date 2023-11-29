@@ -2,8 +2,8 @@
 // Created by mpl on 23-4-3.
 //
 
-#ifndef CannyEVT_EVENTPROBLEMLM_H
-#define CannyEVT_EVENTPROBLEMLM_H
+#ifndef CannyEVT_CamBasedProblemLM_H
+#define CannyEVT_CamBasedProblemLM_H
 
 #include "GenericFunctor.h"
 #include "EventCamera.h"
@@ -13,11 +13,11 @@
 namespace CannyEVT
 {
 
-struct EventProblemConfig {
-    typedef std::shared_ptr<EventProblemConfig> Ptr;
+struct CamBasedProblemConfig {
+    typedef std::shared_ptr<CamBasedProblemConfig> Ptr;
 
-    EventProblemConfig(size_t patchSize_X, size_t patchSize_Y, size_t kernelSize, const std::string &LSnorm,
-                       double huber_threshold, double invDepth_min_range = 0.16, double invDepth_max_range = 1.0,
+    CamBasedProblemConfig(size_t patchSize_X, size_t patchSize_Y, size_t kernelSize, const std::string &LSnorm,
+                       double huber_threshold, double invDepth_min_range = 0.2, double invDepth_max_range = 2.0,
                        const size_t MIN_NUM_EVENTS = 1000, const size_t MAX_REGISTRATION_POINTS = 3000,
                        const size_t BATCH_SIZE = 200, const size_t MAX_ITERATION = 10, const size_t NUM_THREAD = 4)
             :patchSize_X_(patchSize_X), patchSize_Y_(patchSize_Y), kernelSize_(kernelSize), LSnorm_(LSnorm),
@@ -45,10 +45,10 @@ struct EventProblemConfig {
 };
 
 
-class EventProblemLM: public GenericFunctor<double>
+class CamBasedProblemLM: public GenericFunctor<double>
 {
 public:
-    typedef std::shared_ptr<EventProblemLM> Ptr;
+    typedef std::shared_ptr<CamBasedProblemLM> Ptr;
 
     struct Job {
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -59,10 +59,10 @@ public:
     };
 
 public:
-    EventProblemLM(EventProblemConfig::Ptr config, EventCamera::Ptr EventCam);
-    ~EventProblemLM() = default;
+    CamBasedProblemLM(CamBasedProblemConfig::Ptr config, EventCamera::Ptr EventCam);
+    ~CamBasedProblemLM() = default;
 
-    void setConfig(EventProblemConfig::Ptr config);
+    void setConfig(CamBasedProblemConfig::Ptr config);
     void setProblem(TimeSurface::Ptr Ts, pCloud cloud, Eigen::Matrix4d Twc, Eigen::Matrix4d Twl);
     Eigen::Matrix4d getPose();
     void setStochasticSampling(size_t offset, size_t N);
@@ -83,7 +83,7 @@ public:
 
 public:
     EventCamera::Ptr mEventCamera;
-    EventProblemConfig::Ptr mConfig;
+    CamBasedProblemConfig::Ptr mConfig;
     TimeSurface::Ptr mTs;
     pCloud mCloud;
 
@@ -102,4 +102,4 @@ public:
 };
 }
 
-#endif //CannyEVT_EVENTPROBLEMLM_H
+#endif //CannyEVT_CamBasedProblemLM_H

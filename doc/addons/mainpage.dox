@@ -1,10 +1,10 @@
 /** \mainpage The Canny-EVT library
  *
- * The present software framework accompanies the paper submission "Semi-Dense Cross-Modal 6-DoF Tracking of an Event Camera in Challenging Conditions". It contains solutions for 6-dof semi-dense tracking with normal cameras as well as cross-modal 6-DoF semi-dense tracking with an event camera. 
+ * The present software framework accompanies the paper submission "Semi-Dense Cross-Modal 6-DoF Tracking of an CamBased Camera in Challenging Conditions". It contains solutions for 6-dof semi-dense tracking with normal cameras as well as cross-modal 6-DoF semi-dense tracking with an CamBased camera. 
  *
  * Related Publications:
  *
- * - Zuo, Yi–Fan, et al. "Devo: Depth-event camera visual odometry in challenging conditions." 2022 International Conference on Robotics and Automation (ICRA). IEEE, 2022.
+ * - Zuo, Yi–Fan, et al. "Devo: Depth-CamBased camera visual odometry in challenging conditions." 2022 International Conference on Robotics and Automation (ICRA). IEEE, 2022.
  * - He, Shida, et al. "Incremental 3d line segment extraction from semi-dense slam." 2018 24th International Conference on Pattern Recognition (ICPR). IEEE, 2018.
  * - Mur-Artal, Raúl, and Juan D. Tardós. "Probabilistic Semi-Dense Mapping from Highly Accurate Feature-Based Monocular SLAM." Robotics: Science and Systems. Vol. 2015. 2015.
  *

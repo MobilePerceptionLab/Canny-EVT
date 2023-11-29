@@ -6,7 +6,7 @@ import rosbag
 import rospy
 import scipy
 from dvs_msgs import msg
-from dvs_msgs.msg import Event, EventArray
+from dvs_msgs.msg import CamBased, CamBasedArray
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import CameraInfo, Image
 from std_msgs.msg import *
@@ -21,14 +21,14 @@ class TimeSurfaceComp:
         self.K_ = None
         self.dist_ = None
         self.stamped_poses_ = None
-        self.events_ = None
+        self.CamBaseds_ = None
         self.Tss_ = None
         self.h_ = None
         self.w_ = None
         # self.
 
     def loadData(self, bag_path):
-        # load datasets, including depth frames, ground truth poses and all the events
+        # load datasets, including depth frames, ground truth poses and all the CamBaseds
         bag = rosbag.Bag(bag_path, "r")
         # pose_msgs = [m for m in bag.read_messages("/davis/left/pose")]
         cam_info_msgs = [m for m in bag.read_messages(
@@ -39,14 +39,14 @@ class TimeSurfaceComp:
         self.h_ = cam_info.height
         self.w_ = cam_info.width
         self.dist_ = np.array(cam_info.D)
-        events_temp = [m.message for m in bag.read_messages(
-            "/davis/left/events")]
+        CamBaseds_temp = [m.message for m in bag.read_messages(
+            "/davis/left/CamBaseds")]
         # self.stamped_poses_ = [m.message for m in pose_msgs]
-        # pack event arrays
-        self.events_ = []
-        for ea in events_temp:
-            for e in ea.events:
-                self.events_.append(e)
+        # pack CamBased arrays
+        self.CamBaseds_ = []
+        for ea in CamBaseds_temp:
+            for e in ea.CamBaseds:
+                self.CamBaseds_.append(e)
         bag.close()
 
     def interpolatePoseStamped(p):
@@ -56,17 +56,17 @@ class TimeSurfaceComp:
         print(self.K_)
         print(self.dist_)
         print(len(self.stamped_poses_))
-        print(len(self.events_))
-        print(self.events_[0].ts)
+        print(len(self.CamBaseds_))
+        print(self.CamBaseds_[0].ts)
         print(self.stamped_poses_[0].header.stamp)
 
     def createTimeSurfaceStamped(self, interval_s=0.04):
         self.Tss_ = []
-        t_init = rosTime2Float(self.events_[0].ts)
+        t_init = rosTime2Float(self.CamBaseds_[0].ts)
         t_start = t_init
         decay_factor = 3
         Ts_temp = np.zeros([self.h_, self.w_], dtype=np.float32)
-        for e in self.events_:
+        for e in self.CamBaseds_:
             t_cur = rosTime2Float(e.ts)
             if t_cur > t_start+interval_s:
                 # update new frame

@@ -63,19 +63,19 @@ Eigen::Vector3d Utility::rot2cayley(const Eigen::Matrix3d &R)
     return cayley;
 }
 
-// void Utility::visulization(TimeSurface::Ptr TsPtr, EventProblemLM::Ptr EventProblemLMPtr, EventCamera::Ptr eventCam){
+// void Utility::visulization(TimeSurface::Ptr TsPtr, CamBasedProblemLM::Ptr CamBasedProblemLMPtr, EventCamera::Ptr eventCam){
 //        size_t width, height; //肯定已知，根据具体变量名赋值
 //        cv::Mat reprojMap = cv::Mat(cv::Size(width, height), CV_8UC1, cv::Scalar(0));
 //        cv::Mat TS = TsPtr->getTs();//取出当前TS
 //        TS.convertTo(reprojMap, CV_8UC1);//类型转化
 //        cv::cvtColor(reprojMap, reprojMap, CV_GRAY2BGR);
 
-//        Eigen::Matrix3d Rcw = EventProblemLMPtr -> mRwc.transpose();
-//        Eigen::Vector3d tcw = -Rcw * EventProblemLMPtr -> mtwc;
+//        Eigen::Matrix3d Rcw = CamBasedProblemLMPtr -> mRwc.transpose();
+//        Eigen::Vector3d tcw = -Rcw * CamBasedProblemLMPtr -> mtwc;
 
-//        size_t numVisualization = EventProblemLMPtr -> mResItems.size();//根据选出的点云进行.size()
+//        size_t numVisualization = CamBasedProblemLMPtr -> mResItems.size();//根据选出的点云进行.size()
 //        for( size_t i = 0; i<numVisualization; i++){
-//            ResidualItem &ri = EventProblemLMPtr ->mResItems[i];
+//            ResidualItem &ri = CamBasedProblemLMPtr ->mResItems[i];
 //            Eigen::Vector3d p3d = Rcw * ri.p_ + tcw;//this is a 3d point in camera coordinat
 //            Eigen::Vector2d p2d = eventCam -> World2Cam(p3d);//this is a 2D point in camera coordinate. result of world2cam(p3d)
            

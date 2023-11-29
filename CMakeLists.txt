@@ -39,7 +39,7 @@ set(SRC_FILE
         src/System.cpp
         src/Optimizer.cpp
         src/type.cpp
-        src/EventProblemLM.cpp
+        src/CamBasedProblemLM.cpp
         src/utility.cpp )
 
 
@@ -50,7 +50,7 @@ set(INCLUDE_FILE
         include/System.h
         include/Optimizer.h
         include/type.h
-        include/EventProblemLM.h
+        include/CamBasedProblemLM.h
         include/GenericFunctor.h)
 
 # library

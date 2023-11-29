@@ -2,7 +2,7 @@
 // Created by mpl on 23-4-3.
 //
 
-#include "EventProblemLM.h"
+#include "CamBasedProblemLM.h"
 #include "utility.h"
 
 #include <stdlib.h>
@@ -10,7 +10,7 @@
 
 using namespace CannyEVT;
 
-EventProblemLM::EventProblemLM(EventProblemConfig::Ptr config, EventCamera::Ptr EventCam)
+CamBasedProblemLM::CamBasedProblemLM(CamBasedProblemConfig::Ptr config, EventCamera::Ptr EventCam)
 :GenericFunctor<double>(6, 0), mConfig(config), mEventCamera(EventCam), mCounter(0), mNumBatches(0)
 {
     mPatchSize = mConfig->patchSize_X_ * mConfig->patchSize_Y_;
@@ -19,7 +19,7 @@ EventProblemLM::EventProblemLM(EventProblemConfig::Ptr config, EventCamera::Ptr 
 
 
 
-int EventProblemLM::predictPolarity(const Eigen::Vector2d& gradFlow, const Eigen::Vector2d& opticalFlow)
+int CamBasedProblemLM::predictPolarity(const Eigen::Vector2d& gradFlow, const Eigen::Vector2d& opticalFlow)
 {
     if (!isValidFlow(gradFlow) || !isValidFlow(opticalFlow))
         return 0;
@@ -31,12 +31,12 @@ int EventProblemLM::predictPolarity(const Eigen::Vector2d& gradFlow, const Eigen
     return cosTheta > 0 ? 1 : -1;
 }
 
-void EventProblemLM::setConfig(EventProblemConfig::Ptr config)
+void CamBasedProblemLM::setConfig(CamBasedProblemConfig::Ptr config)
 {
     mConfig = config;
 }
 
-void EventProblemLM::setStochasticSampling(size_t offset, size_t N)
+void CamBasedProblemLM::setStochasticSampling(size_t offset, size_t N)
 {
     mResItemsStochSampled.clear();
     mResItemsStochSampled.reserve(N);
@@ -56,7 +56,7 @@ void EventProblemLM::setStochasticSampling(size_t offset, size_t N)
     }
 }
 
-void EventProblemLM::setProblem(TimeSurface::Ptr Ts, pCloud cloud, Eigen::Matrix4d Twc, Eigen::Matrix4d Twl)
+void CamBasedProblemLM::setProblem(TimeSurface::Ptr Ts, pCloud cloud, Eigen::Matrix4d Twc, Eigen::Matrix4d Twl)
 {
     mTs = Ts;
     mCloud = cloud;
@@ -151,7 +151,7 @@ void EventProblemLM::setProblem(TimeSurface::Ptr Ts, pCloud cloud, Eigen::Matrix
 
 }
 
-void EventProblemLM::pointCulling(int col, int row, Eigen::MatrixXd& depthMatrix, Eigen::MatrixXd& indexMatrix, double depth, int index)
+void CamBasedProblemLM::pointCulling(int col, int row, Eigen::MatrixXd& depthMatrix, Eigen::MatrixXd& indexMatrix, double depth, int index)
 {
     if (col == -1 || row == -1)
         mResItems[index].weight_ = 0;
@@ -169,7 +169,7 @@ void EventProblemLM::pointCulling(int col, int row, Eigen::MatrixXd& depthMatrix
     }
 }
 
-Eigen::Matrix4d EventProblemLM::getPose()
+Eigen::Matrix4d CamBasedProblemLM::getPose()
 {
     Eigen::Matrix4d ret = Eigen::Matrix4d::Identity();
     ret.block<3,3>(0, 0) = mRwc;
@@ -177,7 +177,7 @@ Eigen::Matrix4d EventProblemLM::getPose()
     return ret;
 }
 
-void EventProblemLM::addMotionUpdate(const Eigen::Matrix<double, 6, 1> &dx)
+void CamBasedProblemLM::addMotionUpdate(const Eigen::Matrix<double, 6, 1> &dx)
 {
     // To update R_, t_
     Eigen::Vector3d dc = dx.block<3, 1>(0, 0);
@@ -190,7 +190,7 @@ void EventProblemLM::addMotionUpdate(const Eigen::Matrix<double, 6, 1> &dx)
     mtwc = dt + dR * mtwc;
 }
 
-int EventProblemLM::operator()(const Eigen::Matrix<double, 6, 1> &x, Eigen::VectorXd &fvec) const
+int CamBasedProblemLM::operator()(const Eigen::Matrix<double, 6, 1> &x, Eigen::VectorXd &fvec) const
 {
     Eigen::Matrix4d Tcw = Eigen::Matrix4d::Identity();
     getWarpingTransformation(Tcw, x);
@@ -205,7 +205,7 @@ int EventProblemLM::operator()(const Eigen::Matrix<double, 6, 1> &x, Eigen::Vect
 
     std::vector<std::thread> threads;
     for (size_t i = 0; i < mConfig->NUM_THREAD; i++)
-        threads.emplace_back(std::bind(&EventProblemLM::thread, this, jobs[i]));
+        threads.emplace_back(std::bind(&CamBasedProblemLM::thread, this, jobs[i]));
     for (auto &thread : threads)
         if (thread.joinable())
             thread.join();
@@ -234,7 +234,7 @@ int EventProblemLM::operator()(const Eigen::Matrix<double, 6, 1> &x, Eigen::Vect
     return 0;
 }
 
-int EventProblemLM::df(const Eigen::Matrix<double, 6, 1> &x, Eigen::MatrixXd &fjac) const
+int CamBasedProblemLM::df(const Eigen::Matrix<double, 6, 1> &x, Eigen::MatrixXd &fjac) const
 {
     if (x != Eigen::Matrix<double, 6, 1>::Zero()) {
         std::cerr << "The Jacobian is not evaluated at Zero !!!!!!!!!!!!!";
@@ -304,46 +304,28 @@ int EventProblemLM::df(const Eigen::Matrix<double, 6, 1> &x, Eigen::MatrixXd &fj
 
             //using optical flow
             //grad = ri.optical_flow_;
-            // strategy 1
-            // Eigen::Vector4d p4d;
-            // p4d.setIdentity();
-            // p4d.block<3,1>(0,0) = ri.p_;
+            Eigen::Vector4d p4d;
+            p4d.setIdentity();
+            p4d.block<3,1>(0,0) = ri.p_;
             
-            // Eigen::Vector4d p3d = Tcw * p4d;
-            // Eigen::Matrix<double, 2, 3> dPi_dT;
-            // dPi_dT.setZero();
-            // dPi_dT.block<2, 2>(0, 0) = mEventCamera->getProjectionMatrix().block<2, 2>(0, 0) / p3d(2);
-            // const double z2 = pow(p3d(2), 2);
-            // dPi_dT(0, 2) = -(P11 * p3d(0) + P12 * p3d(1) + P14) / z2;
-            // dPi_dT(1, 2) = -(P21 * p3d(0) + P22 * p3d(1) + P24) / z2;
-
-            // // assemble dT_dG
-            // Eigen::Matrix<double, 3, 12> dT_dG;
-            // dT_dG.setZero();
-            // dT_dG.block<3, 3>(0, 0) = p3d(0) * Eigen::Matrix3d::Identity();
-            // dT_dG.block<3, 3>(0, 3) = p3d(1) * Eigen::Matrix3d::Identity();
-            // dT_dG.block<3, 3>(0, 6) = p3d(2) * Eigen::Matrix3d::Identity();
-            // dT_dG.block<3, 3>(0, 9) = Eigen::Matrix3d::Identity();
-            // fjacBlock.row(i) = grad.transpose() * dPi_dT * dT_dG;
-            
-            // strategy 2
+            Eigen::Vector4d p3d = Tcw * p4d;
             Eigen::Matrix<double, 2, 3> dPi_dT;
             dPi_dT.setZero();
-            dPi_dT.block<2, 2>(0, 0) = mEventCamera->getProjectionMatrix().block<2, 2>(0, 0) / ri.p_(2);
-            const double z2 = pow(ri.p_(2), 2);
-            dPi_dT(0, 2) = -(P11 * ri.p_(0) + P12 * ri.p_(1) + P14) / z2;
-            dPi_dT(1, 2) = -(P21 * ri.p_(0) + P22 * ri.p_(1) + P24) / z2;
+            dPi_dT.block<2, 2>(0, 0) = mEventCamera->getProjectionMatrix().block<2, 2>(0, 0) / p3d(2);
+            const double z2 = pow(p3d(2), 2);
+            dPi_dT(0, 2) = -(P11 * p3d(0) + P12 * p3d(1) + P14) / z2;
+            dPi_dT(1, 2) = -(P21 * p3d(0) + P22 * p3d(1) + P24) / z2;
 
             // assemble dT_dG
             Eigen::Matrix<double, 3, 12> dT_dG;
             dT_dG.setZero();
-            dT_dG.block<3, 3>(0, 0) = ri.p_(0) * Eigen::Matrix3d::Identity();
-            dT_dG.block<3, 3>(0, 3) = ri.p_(1) * Eigen::Matrix3d::Identity();
-            dT_dG.block<3, 3>(0, 6) = ri.p_(2) * Eigen::Matrix3d::Identity();
+            dT_dG.block<3, 3>(0, 0) = p3d(0) * Eigen::Matrix3d::Identity();
+            dT_dG.block<3, 3>(0, 3) = p3d(1) * Eigen::Matrix3d::Identity();
+            dT_dG.block<3, 3>(0, 6) = p3d(2) * Eigen::Matrix3d::Identity();
             dT_dG.block<3, 3>(0, 9) = Eigen::Matrix3d::Identity();
             //      LOG(INFO) << "dT_dG:\n" << dT_dG;
-            fjacBlock.row(i) = grad.transpose() * dPi_dT * J_constPart * dPi_dT * dT_dG * ri.p_(2); // ri.p_(2) refers to 1/rho_i which is actually coming with dInvPi_dx.
-            // fjacBlock.row(i) = grad.transpose() * dPi_dT * dT_dG;
+            // fjacBlock.row(i) = grad.transpose() * dPi_dT * J_constPart * dPi_dT * dT_dG * ri.p_(2); // ri.p_(2) refers to 1/rho_i which is actually coming with dInvPi_dx.
+            fjacBlock.row(i) = grad.transpose() * dPi_dT * dT_dG;
             fjacBlock.row(i) = ri.weight_ * fjacBlock.row(i);
         }
     }
@@ -353,7 +335,7 @@ int EventProblemLM::df(const Eigen::Matrix<double, 6, 1> &x, Eigen::MatrixXd &fj
     return 0;
 }
 
-void EventProblemLM::thread(Job &job) const
+void CamBasedProblemLM::thread(Job &job) const
 {
     ResidualItems &vRI = *job.pvRI;
     TimeSurface::ConstPtr TsObs = job.pTs;
@@ -420,7 +402,7 @@ void EventProblemLM::thread(Job &job) const
 
 }
 
-void EventProblemLM::getWarpingTransformation(Eigen::Matrix4d &warpingTransf, const Eigen::Matrix<double, 6, 1> &x) const
+void CamBasedProblemLM::getWarpingTransformation(Eigen::Matrix4d &warpingTransf, const Eigen::Matrix<double, 6, 1> &x) const
 {
     // To calcuate R_cur_ref, t_cur_ref
     Eigen::Matrix3d Rcw;
@@ -442,7 +424,7 @@ void EventProblemLM::getWarpingTransformation(Eigen::Matrix4d &warpingTransf, co
     warpingTransf.block<3, 1>(0, 3) = tcw;
 }
 
-bool EventProblemLM::patchInterpolation(const Eigen::MatrixXd &img, const Eigen::Vector2d &location,
+bool CamBasedProblemLM::patchInterpolation(const Eigen::MatrixXd &img, const Eigen::Vector2d &location,
                                         Eigen::MatrixXd &patch, bool debug) const
 {
     int wx = mConfig->patchSize_X_;
@@ -499,7 +481,7 @@ bool EventProblemLM::patchInterpolation(const Eigen::MatrixXd &img, const Eigen:
     return true;
 
 }
-void EventProblemLM::computeJ_G(const Eigen::Matrix<double, 6, 1> &x, Eigen::Matrix<double, 12, 6> &J_G)
+void CamBasedProblemLM::computeJ_G(const Eigen::Matrix<double, 6, 1> &x, Eigen::Matrix<double, 12, 6> &J_G)
 {
     assert(x.size() == 6);
     assert(J_G.rows() == 12 && J_G.cols() == 6);
@@ -557,14 +539,14 @@ void EventProblemLM::computeJ_G(const Eigen::Matrix<double, 6, 1> &x, Eigen::Mat
     J_G.block<3, 3>(9, 3) = I33;
 }
 
-bool EventProblemLM::isValidFlow(const Eigen::Vector2d &flow)
+bool CamBasedProblemLM::isValidFlow(const Eigen::Vector2d &flow)
 {
     if ((flow(0) == 0 && flow(1) == 0) || isnan(flow(0)) || isnan(flow(1)))
         return false;
     return true;
 }
 
-bool EventProblemLM::isValidPatch(Eigen::Vector2d &patchCentreCoord, Eigen::MatrixXi &mask, size_t wx, size_t wy) const
+bool CamBasedProblemLM::isValidPatch(Eigen::Vector2d &patchCentreCoord, Eigen::MatrixXi &mask, size_t wx, size_t wy) const
 {
     if (patchCentreCoord(0) < (wx - 1) / 2 || patchCentreCoord(0) > mEventCamera->getWidth() - (wx - 1) / 2 - 1 ||
         patchCentreCoord(1) < (wy - 1) / 2 || patchCentreCoord(1) > mEventCamera->getHeight() - (wy - 1) / 2 - 1)

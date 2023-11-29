@@ -17,10 +17,10 @@
 using namespace CannyEVT;
 
 Optimizer::Optimizer(std::string configPath, EventCamera::Ptr eventCam):
-mEventCam(eventCam), mEventProblemConfig(new EventProblemConfig(1, 1, 5, "Huber", 50.0))
+mEventCam(eventCam), mCamBasedProblemConfig(new CamBasedProblemConfig(1, 1, 5, "Huber", 50.0))
 
 {
-    mEventProblem = std::make_shared<EventProblemLM>(mEventProblemConfig, mEventCam);
+    mEventProblem = std::make_shared<CamBasedProblemLM>(mCamBasedProblemConfig, mEventCam);
 
     cv::FileStorage fs(configPath, cv::FileStorage::READ );
     if (!fs.isOpened())
@@ -36,14 +36,14 @@ mEventCam(eventCam), mEventProblemConfig(new EventProblemConfig(1, 1, 5, "Huber"
     mPointCulling = fs["PointCulling"];
     if (fs["PointCulling"].isNone())
         WARNING("[PointCulling]", "config[PointCulling] not set!");
-    if(mPointCulling == 1) mEventProblemConfig->usingPointCulling = true;
-    else mEventProblemConfig->usingPointCulling = false;
+    if(mPointCulling == 1) mCamBasedProblemConfig->usingPointCulling = true;
+    else mCamBasedProblemConfig->usingPointCulling = false;
 
     mNormalFlow = fs["NormalFlow"];
     if (fs["NormalFlow"].isNone())
         WARNING("[NormalFlow]", "config[NormalFlow] not set!");
-    if(mNormalFlow == 1) mEventProblemConfig->usingNormalFlow = true;
-    else mEventProblemConfig->usingNormalFlow = false;
+    if(mNormalFlow == 1) mCamBasedProblemConfig->usingNormalFlow = true;
+    else mCamBasedProblemConfig->usingNormalFlow = false;
 
     mVisualize = fs["visulization"];
     if (fs["visulization"].isNone())
@@ -67,23 +67,23 @@ bool Optimizer::OptimizeEventProblem(TimeSurface::Ptr ts, pCloud cloud, const Ei
     Eigen::Matrix4d Twc_last = Twl;
     mEventProblem->setProblem(ts, cloud, Twc_init, Twc_last);
 
-    Eigen::LevenbergMarquardt<EventProblemLM, double> lm(*mEventProblem);
+    Eigen::LevenbergMarquardt<CamBasedProblemLM, double> lm(*mEventProblem);
     lm.resetParameters();
     lm.parameters.ftol = 1e-3;
     lm.parameters.xtol = 1e-3;
-    lm.parameters.maxfev = mEventProblemConfig->MAX_ITERATION_ * 8; 
+    lm.parameters.maxfev = mCamBasedProblemConfig->MAX_ITERATION_ * 8; 
 
     size_t iteration = 0;
     size_t nfev = 0;
     while(true)
     {
-        if (iteration >= mEventProblemConfig->MAX_ITERATION_)
+        if (iteration >= mCamBasedProblemConfig->MAX_ITERATION_)
         {
             break;
         }
 
-        mEventProblem->setStochasticSampling((iteration % mEventProblem->mNumBatches) * mEventProblemConfig->BATCH_SIZE_,
-                                             mEventProblemConfig->BATCH_SIZE_);
+        mEventProblem->setStochasticSampling((iteration % mEventProblem->mNumBatches) * mCamBasedProblemConfig->BATCH_SIZE_,
+                                             mCamBasedProblemConfig->BATCH_SIZE_);
 
         Eigen::VectorXd x(6);
         x.fill(0.0);

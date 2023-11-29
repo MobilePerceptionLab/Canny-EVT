@@ -43,17 +43,16 @@ width: 640
 # for ros
 event_topic: "/prophesee/left/events"
 imu_topic: "/imu/data"
-bag_path: "/media/cuili/WantingHDD/zzz/VECtor/our_edited/robot_n_edited.bag"
+bag_path: "/home/cuili/zzz/Canny_EVT_open_source/robot_n_edited.bag"
 
 # for system
-pcd_path: "/media/cuili/WantingHDD/zzz/VECtor/our_edited/robot_n.pcd"
-#
+pcd_path: "/home/cuili/zzz/Canny_EVT_open_source/robot_n.pcd"
 #"/home/cuili/Downloads/semi_cloud_enu_back.pcd"
+#
 #"/home/cuili/zzz/semidense-lines-gt-5/results_line_segments/SemiDense.pcd"
 #"/media/cuili/WantingHDD/zzz/VECtor/our_edited/robot_n.pcd"
 
-resultPath: "home/cuili/zzz/semidense-lines-zzz/results_line_segments/result/VECtor/robot_n.pcd"
-#"/home/cuili/zzz/Canny_EVT_open_source/result.txt"
+resultPath: "/home/cuili/zzz/Canny_EVT_open_source/result.txt"
 start_time: 1642661138.936530 # TBD
 #1642661139.103197 #test new for yrz
 

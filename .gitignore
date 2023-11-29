@@ -10,5 +10,6 @@ lib/
 backup/
 record.md
 example/ROS/src/CMakeLists.txt
-
+*.bag
+*.pcd
 # CMakeLists.txt

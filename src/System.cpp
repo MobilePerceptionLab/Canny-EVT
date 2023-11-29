@@ -89,6 +89,7 @@ void System::ReadYaml(const std::string &config_path )
 }
 
 void System::LoadPointCloud(){
+    //pcl::PointNormal : x y z: 3D point; xg yg zg: 3D gradient
     pcl::PointCloud<pcl::PointNormal>::Ptr cloud_in(new pcl::PointCloud<pcl::PointNormal>);
     if (pcl::io::loadPCDFile(mPcdPath, *cloud_in) < 0)
     {
@@ -136,16 +137,7 @@ void System::GrabEventData(const size_t &x, const size_t &y, const double &t, co
 }
 
 void System::ProcessBackEnd(){
-    // bool bfirst = true;
-
-    //test
-//     std::cout << "111111111111111111"<< std::endl;
-//     Eigen::Matrix4d T_first;
-//     T_first<< 0.0365235643, -0.3137547797,  0.9488013369,  0.1284005649,
-// -0.9969353010, -0.0771664592,  0.0128586365,  0.0810022731,
-//  0.0691811827, -0.9463631862, -0.3156116047, -0.0241857160,
-//  0.0000000000,  0.0000000000,  0.0000000000,  1.0000000000;
-
+    bool bfirst = true;
     while(bStart_backend){
         //get the mutex before reading the data
         std::unique_lock<std::mutex> lk(mDataMutex);
@@ -155,11 +147,11 @@ void System::ProcessBackEnd(){
         con.wait(lk, [&measurements, this] { return (measurements = getMeasurements()).size() != 0;});
 
         lk.unlock();
+
         for(auto &measurement : measurements){
             //make frame by the measurement
             Frame::Ptr CurrentFrame = MakeFrame(measurement);
-            if(CurrentFrame->mStamp < mStartTime) continue;
-
+            
             if (mLastFrame != nullptr && mFrameForOpticalFlow != nullptr) mOptimizer->OptimizeEventProblem(CurrentFrame->mTs, mCloud, mLastFrame->T, mFrameForOpticalFlow->T, CurrentFrame->T);        
             else if(mLastFrame != nullptr) mOptimizer->OptimizeEventProblem(CurrentFrame->mTs, mCloud, mLastFrame->T, mLastFrame->T, CurrentFrame->T);
             else mOptimizer->OptimizeEventProblem(CurrentFrame->mTs, mCloud, Eigen::Matrix4d::Identity(), Eigen::Matrix4d::Identity(), CurrentFrame->T);
@@ -169,6 +161,7 @@ void System::ProcessBackEnd(){
                 mFrameForOpticalFlow = mFrameQueue.front();
             }
             else mFrameQueue.push(CurrentFrame);
+
             
             mLastFrame = CurrentFrame;
             // Utility::DrawTs(CurrentFrame->mTs, mCloud, CurrentFrame->T, mEventCam, "new");
