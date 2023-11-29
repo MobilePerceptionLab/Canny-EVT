@@ -1,3 +1,5 @@
 /** \page page_datasets Datasets used in our paper
- *
+ * For some datasets that are available only in ROS bag format, we provide a conversion tool to convert ROS bags into TUM format data. 
+ * 
+ * For datasets that lack event data, such as TUM, we employ vid2e for event generation. The corresponding ROS bags are available at [xxx].
  */

@@ -38,27 +38,85 @@ http://git-scm.com/
  * <ul>
  * <li> OpenCV
  *
- * ...
+ * **Command Line Installation (Quick)**
  *
- * (Provide step-by-step instructions on how to install OpenCV)
+ * To install OpenCV on a Debian-based system (like Ubuntu) via command line, use:
+ *
+\verbatim
+sudo apt install libopencv-dev python3-opencv
+\endverbatim
+ * 
+ * **Source Installation**
+ *
+ * For a custom installation or for systems without pre-built packages, you can install OpenCV from source.
+ *
+ * 1. Visit the official OpenCV website to download the source code: 
+ *  - <a href="https://opencv.org/" target="_blank">`OpenCV Official Website`</a>
+ *
+ * 2. Download the latest source code from the releases page: 
+ *  - <a href="https://opencv.org/releases/" target="_blank">`OpenCV Releases`</a>
+ *
+ * After downloading, extract the files, navigate to the directory, and follow the standard source building process with CMake.
+ * 
+ * Note: Building from source requires additional steps such as dependency resolution and configuration which are not covered in this brief README. Please refer to the OpenCV documentation for detailed instructions.
  *
  * <li> Eigen3
  * 
- * ...
+ * **Command Line Installation (Quick)**
+ * 
+ * To install Eigen3 on Debian-based systems via command line:
  *
- * (Provide step-by-step instructions on how to install Eigen3)
+\verbatim
+sudo apt install libeigen3-dev
+\endverbatim
+ * 
+ * **Source Installation**
+ * 
+ * For manual installation from source:
+ * 
+ * Download the source code from the official Eigen website:
+ * 
+ * - <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page" target="_blank">`Eigen Official Page`</a>
+ * 
+ * After downloading, you can include Eigen in your C++ project by adding the extracted directory to your include path. Eigen is a header-only library, so no building or linking is necessary.
  *
  * <li> PCL
  * 
- * ...
+ * **Command Line Installation (Quick)**
+ * 
+ * For Debian-based systems, use the following commands to install PCL from a PPA repository:
  *
- * (Provide step-by-step instructions on how to install PCL)
+\verbatim
+sudo add-apt-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl
+sudo apt-get update
+sudo apt-get install libpcl-dev
+\endverbatim
+ * 
+ * **Source Installation**
+ * 
+ * Alternatively, to install PCL from source:
+ * 
+ * Clone the PCL repository:
+ * 
+\verbatim
+git clone https://github.com/PointCloudLibrary/pcl.git
+\endverbatim
+ * 
+ * After cloning, proceed with the build process using CMake and make.
+ * 
+ * Note: Building from source requires fulfilling certain dependencies and might be system-specific. Please refer to the PCL documentation for a complete build guide.
  *
  * <li> Pangolin
  *
- * ...
- *
- * (Provide step-by-step instructions on how to install Pangolin)
+ * To install Pangolin from the source, use the following command to clone the repository:
+ * 
+\verbatim
+git clone https://github.com/stevenlovegrove/Pangolin.git
+\endverbatim
+ * 
+ * After cloning, proceed with the build process using CMake and make.
+ * 
+ * Note: Ensure all the required dependencies are installed before compiling Pangolin. Refer to the Pangolin GitHub repository for detailed build instructions and dependency information.
  * 
  * \section sec_installation_3 Compilation
  * To compile the project, you can use one of the following commands based on your shell preference:
