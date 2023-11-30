@@ -2,4 +2,44 @@
  * For some datasets that are available only in ROS bag format, we provide a conversion tool to convert ROS bags into TUM format data. 
  * 
  * For datasets that lack CamBased data, such as TUM, we employ vid2e for CamBased generation. The corresponding ROS bags are available at [xxx].
+ * 
+ * \section sec_datasets_1 MPL1
+ * 
+ * <a href="https://drive.google.com/file/d/1ouRgjjHcjLOq1cD2XlIK1BiIfAlkM1o1/view?usp=share_link" target="_blank">`cali_bright_fast`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/19HumonohrdezVQ7hsfTXpshKqgIf-lCJ/view?usp=share_link" target="_blank">`cali_bright_mid`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1tEQGm7IXfpazdTeppEoveDE5uPVjMyxA/view?usp=share_link" target="_blank">`cali_bright_slow`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1SxjUwqffOPn8mwQseE4-GJy4Sw-8BbTe/view?usp=share_link" target="_blank">`table_bright_fast`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1uPM_Dx5lKyhAfyAWF3JWCc95FSpBydI8/view?usp=share_link" target="_blank">`table_bright_slow`</a> 
+ *
+ * \section sec_datasets_2 MPL2
+ *
+ * ...
+ * 
+ * \section sec_datasets_3 VECtor
+ *
+ * <a href="https://drive.google.com/file/d/1tUxpYpTiFs_kyTzJD8VHK5R4ej2Zjvy8/view?usp=share_link" target="_blank">`board_slow`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1leCA_a-IuShUefXvJ0vtr9WgDi85QCur/view?usp=share_link" target="_blank">`mountain_fast`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1VCYDbbaDfJ_MVDmg8RcySB7BG3Ly3h_a/view?usp=share_link" target="_blank">`desk_fast`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1kLO1_AIAZwNJN-Kwl4T_U2iN3xQOk1zi/view?usp=share_link" target="_blank">`robot_fast`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1vxVOIefnIjuIBsCLuf5O19Q5ZCnq9q8Q/view?usp=share_link" target="_blank">`robot_normal`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1ymnCn6QhF8dZEkDHOoE-AbeuXRkb_EbS/view?usp=share_link" target="_blank">`sofa_fast`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1M6ICG1bPYB5Rc-nsnKKvvQ0Ww54k0bbO/view?usp=share_link" target="_blank">`sofa_normal`</a> 
+ *
+ * \section sec_datasets_4 TUM
+ *
+ * <a href="https://drive.google.com/file/d/1JkecfrtNPwaQSKV2t6YOw4dD-dYwhN9T/view?usp=share_link" target="_blank">`fr2_desk`</a> 
+ *
+ * <a href="https://drive.google.com/file/d/1mP2PzmstxavyM2PI-3jt4EOu3y2nOP_V/view?usp=share_link" target="_blank">`fr2_rpy`</a> 
+ *
+ * 
  */
