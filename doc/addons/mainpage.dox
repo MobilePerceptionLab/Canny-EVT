@@ -8,6 +8,14 @@
  * - He, Shida, et al. "Incremental 3d line segment extraction from semi-dense slam." 2018 24th International Conference on Pattern Recognition (ICPR). IEEE, 2018.
  * - Mur-Artal, Raúl, and Juan D. Tardós. "Probabilistic Semi-Dense Mapping from Highly Accurate Feature-Based Monocular SLAM." Robotics: Science and Systems. Vol. 2015. 2015.
  *
+ * \section main_sec_3 Notice
+ * 
+ * Please be aware that this open-source code is still in the debugging and testing phase of development. It may not be stable and is likely subject to change.
+ *
+ * If you are seeking to replicate the test results as presented in the associated paper, we have provided an executable version for your convenience. For detailed information and access to the executable file, please visit our repository:
+ *
+ * <a href="https://github.com/zyfff/Canny-VOAT" target="_blank">`Canny-VOAT Executable File`</a> 
+ * 
  * \section main_sec_2 Getting started
  *
  * Canny-EVT features the following set of algorithms:

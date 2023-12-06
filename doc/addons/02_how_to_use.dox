@@ -65,23 +65,4 @@ python3 readobj_pc_normal_flow.py (todo: might change the file name)
 \verbatim
 python compare_scale.sh
 \endverbatim
- *
- * \section sec_how_to_use_4 Executable Files
- * 
- *
-\verbatim
-\******************************************************************************************
-\endverbatim
- * 
- * Notice:
- * 
- * Please be aware that this open-source code is still in the debugging and testing phase of development. It may not be stable and is likely subject to change.
- *
- * If you are seeking to replicate the test results as presented in the associated paper, we have provided an executable version for your convenience. For detailed information and access to the executable file, please visit our repository:
- *
- * <a href="https://github.com/zyfff/Canny-VOAT" target="_blank">`Canny-VOAT Executable File`</a> 
- * 
-\verbatim
-\******************************************************************************************
-\endverbatim
  */
