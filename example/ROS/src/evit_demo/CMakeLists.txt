@@ -16,12 +16,6 @@ else()
     add_definitions(-DOPENCV3_FOUND)
 endif()
 
-catkin_package(
- LIBRARIES src
- CATKIN_DEPENDS rosbag tf2_ros  pcl_conversions roscpp std_msgs sensor_msgs geometry_msgs prophesee_event_msgs image_transport
- DEPENDS system_lib
-)
-
 find_package(catkin REQUIRED COMPONENTS
         rosbag
         tf2_ros
@@ -34,6 +28,12 @@ find_package(catkin REQUIRED COMPONENTS
         prophesee_event_msgs
         image_transport
         )
+
+catkin_package(
+ LIBRARIES src
+ CATKIN_DEPENDS rosbag tf2_ros  pcl_conversions roscpp std_msgs sensor_msgs geometry_msgs prophesee_event_msgs image_transport
+ DEPENDS system_lib
+)
 
 include_directories(${catkin_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/../../../../include)
