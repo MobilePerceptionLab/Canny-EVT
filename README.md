@@ -17,7 +17,7 @@
 Pages:   https://gowanting.github.io/Canny-EVT/
 
 ## Related Papers
-[Canny-EVT] **Authors:** Yi-Fan Zuo, Wanting Xu, Xia Wang, Yifu Wang, Laurent Kneip, **Cross-Modal Semi-Dense 6-DoF Tracking of an Event Camera in Challenging Conditions**, *TRO 2024*, **[PDF](https://arxiv.org/pdf/2309.08142)**
+[Canny-EVT] **Authors:** Yi-Fan Zuo, Wanting Xu, Xia Wang, Yifu Wang, Laurent Kneip, **Cross-Modal Semi-Dense 6-DoF Tracking of an Event Camera in Challenging Conditions**, *TRO 2024*, **[PDF](https://arxiv.org/pdf/2401.08043)**
 ```
 @article{zuo2024cross,
   title={Cross-modal semi-dense 6-dof tracking of an event camera in challenging conditions},
